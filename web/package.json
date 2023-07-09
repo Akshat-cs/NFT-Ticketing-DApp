@@ -1,0 +1,82 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@algorandfoundation/algokit-utils": "^2.2.1",
+    "@chakra-ui/react": "^2.7.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@json-rpc-tools/utils": "^1.7.6",
+    "@perawallet/connect": "^1.2.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@walletconnect/client": "^1.7.8",
+    "algokit": "^0.0.1",
+    "algorand-walletconnect-qrcode-modal": "^1.8.0",
+    "algosdk": "^2.4.0",
+    "browserify": "^17.0.0",
+    "buffer": "^6.0.3",
+    "cids": "^1.1.9",
+    "core-js": "^3.31.0",
+    "crypto-browserify": "^3.12.0",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.3.1",
+    "esm": "^3.2.25",
+    "framer-motion": "^10.12.17",
+    "multihashes": "^4.0.3",
+    "process": "^0.11.10",
+    "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
+    "react-dom": "^18.2.0",
+    "react-qr-reader": "^3.0.0-beta-1",
+    "react-qr-scanner": "^1.0.0-alpha.11",
+    "react-router-dom": "^6.14.0",
+    "react-scripts": "5.0.1",
+    "sha256": "^0.2.0",
+    "stream-browserify": "^3.0.0",
+    "streaming-iterables": "^7.1.0",
+    "web-vitals": "^3.3.2",
+    "web3.storage": "^4.5.4"
+  },
+  "devDependencies": {
+    "@babel/runtime": "7.22.5"
+  },
+  "overrides": {
+    "react-qr-reader": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:dev": "poetry run python ../app.py && webpack --mode=development",
+    "build:prod": "poetry run python ../app.py && webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "serve": "poetry run python ../app.py && webpack serve",
+    "lint": "eslint . --ext ts",
+    "fix": "eslint . --ext ts --fix"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

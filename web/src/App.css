@@ -1,0 +1,16 @@
+.NFTbody {
+  align-items: center;
+  background-image:
+    url('./images/2.jpg');
+  color: white;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right top;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-height: 100vh;
+  justify-content: center;
+  position: relative;
+  padding: 0 12px;
+}

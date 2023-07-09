@@ -1,0 +1,58 @@
+{
+    "name": "NFTticketingdApp",
+    "methods": [
+        {
+            "name": "mint",
+            "args": [
+                {
+                    "type": "(string,uint64,string)",
+                    "name": "ticket"
+                },
+                {
+                    "type": "uint64",
+                    "name": "ticket_id"
+                },
+                {
+                    "type": "pay",
+                    "name": "mbr_payment"
+                }
+            ],
+            "returns": {
+                "type": "uint64"
+            }
+        },
+        {
+            "name": "buy",
+            "args": [
+                {
+                    "type": "asset",
+                    "name": "asset"
+                },
+                {
+                    "type": "account",
+                    "name": "organizer_account"
+                },
+                {
+                    "type": "uint64",
+                    "name": "ticket_id"
+                },
+                {
+                    "type": "uint64",
+                    "name": "ticket_price"
+                },
+                {
+                    "type": "pay",
+                    "name": "payment"
+                },
+                {
+                    "type": "axfer",
+                    "name": "optin_payment"
+                }
+            ],
+            "returns": {
+                "type": "void"
+            }
+        }
+    ],
+    "networks": {}
+}
