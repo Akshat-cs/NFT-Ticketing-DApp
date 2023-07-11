@@ -10,7 +10,6 @@ import { dAppId } from './LogEvent';
 export default function CheckIn() {
   const [data, setData] = useState('');
   const [showScanner, setShowScanner] = useState(false);
-  const [organizerAddress, setOrganizerAddress] = useState('');
   const [eventID, setEventID] = useState(0);
   const [message, setMessage] = useState('');
 
@@ -33,7 +32,6 @@ export default function CheckIn() {
 
       // Custom logic using scanned data and form inputs (organizerAddress and eventID)
       console.log('Scanned Data:', result.text);
-      console.log('Organizer Address:', organizerAddress);
       console.log('Event ID:', eventID);
       console.log('NFTticketingdAppId:', dAppId);
 
@@ -121,10 +119,6 @@ export default function CheckIn() {
           </div>
         ) : (
           <form>
-            <div className="form-group">
-              <label htmlFor="organizerAddress">Event Organizer's Address</label>
-              <input type="text" className="form-control" id="organizerAddress" value={organizerAddress} onChange={(e) => setOrganizerAddress(e.target.value)} required />
-            </div>
             <div className="form-group">
               <label htmlFor="eventID">Event ID</label>
               <input type="text" className="form-control" id="eventID" value={eventID} onChange={(e) => setEventID(e.target.value)} required />

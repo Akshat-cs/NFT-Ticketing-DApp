@@ -17,7 +17,7 @@ export default function LogEvent({ onFormSubmit }) {
   const [isCreatingApp, setIsCreatingApp] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // const W3S_TOKEN = 'your w3s token which you can get at https://web3.storage/';
+  const W3S_TOKEN = 'Get the api token here https://web3.storage/';
   const w3s = new Web3Storage({ token: W3S_TOKEN });
 
   const [formData, setFormData] = useState({
