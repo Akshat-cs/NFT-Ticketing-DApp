@@ -136,6 +136,10 @@ export default function BuyTickets({ submissions }) {
                   Price of a Ticket: {event.ticketPrice}
                   <img src={logo} alt="Currency Logo" style={{ width: '30px', marginLeft: '1px' }} />
                 </p>
+                <p className="card-text">
+                  Event ID: {event.ticket_id}
+                  <img src={logo} alt="Currency Logo" style={{ width: '30px', marginLeft: '1px' }} />
+                </p>
                 <button
                   className="btn btn-primary"
                   onClick={() => handleBuyTicket(event)}

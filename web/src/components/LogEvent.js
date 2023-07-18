@@ -16,8 +16,9 @@ export default function LogEvent({ onFormSubmit }) {
   const [message, setMessage] = useState('No nft tickets minted!');
   const [isCreatingApp, setIsCreatingApp] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
-  const W3S_TOKEN = 'Get the api token here https://web3.storage/';
+  const W3S_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEYzQjNEMjNmZEFDRjYxMTJERjhlQTg5NmIwNjY4ODgzOUIxMjJlZDYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc3NjU1OTY3MzIsIm5hbWUiOiJBa3NoYXRfVG9rZW4ifQ.qKc5rXKrrpKs4lpMkZnjFrweN_3f67wVzGMtMfmphjM';
   const w3s = new Web3Storage({ token: W3S_TOKEN });
 
   const [formData, setFormData] = useState({
@@ -109,12 +110,23 @@ export default function LogEvent({ onFormSubmit }) {
 
       setNFTticketingdApp(appClient);
       setNFTticketingdAppId(appId); // Set the NFTticketingdAppId state variable
+      setShowMessage(true); // Set showMessage to true when the app is created
     } catch (error) {
       console.log("Couldn't create the app: ", error);
     } finally {
       setIsCreatingApp(false);
     }
   };
+
+  useEffect(() => {
+    let timer;
+    if (showMessage) {
+      timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 6000);
+    }
+    return () => clearTimeout(timer);
+  }, [showMessage]);
 
   useEffect(() => {
     console.log('nftticketingdapp: ', NFTticketingdApp);
@@ -227,6 +239,23 @@ export default function LogEvent({ onFormSubmit }) {
 
   return (
     <div className="container">
+      {showMessage && (
+        <div className="alert alert-success"
+          style={{
+            position: 'fixed',
+            top: '80px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: '9999',
+            width: '200px',
+            height: '45px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <h4 style={{ fontSize: '20px' }}>App is created</h4>
+        </div>
+      )}
       {formData.submitted && (
         <div
           className="alert alert-success mt-4"
