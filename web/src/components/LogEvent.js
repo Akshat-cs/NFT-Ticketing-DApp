@@ -18,7 +18,7 @@ export default function LogEvent({ onFormSubmit }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
-  const W3S_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEYzQjNEMjNmZEFDRjYxMTJERjhlQTg5NmIwNjY4ODgzOUIxMjJlZDYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc3NjU1OTY3MzIsIm5hbWUiOiJBa3NoYXRfVG9rZW4ifQ.qKc5rXKrrpKs4lpMkZnjFrweN_3f67wVzGMtMfmphjM';
+  const W3S_TOKEN = 'Write your own api token here. Get it from https://web3.storage/';
   const w3s = new Web3Storage({ token: W3S_TOKEN });
 
   const [formData, setFormData] = useState({
