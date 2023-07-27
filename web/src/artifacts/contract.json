@@ -5,7 +5,7 @@
             "name": "mint",
             "args": [
                 {
-                    "type": "(string,uint64,string)",
+                    "type": "(string,uint64,string,uint64,string)",
                     "name": "ticket"
                 },
                 {
@@ -29,16 +29,8 @@
                     "name": "asset"
                 },
                 {
-                    "type": "account",
-                    "name": "organizer_account"
-                },
-                {
                     "type": "uint64",
                     "name": "ticket_id"
-                },
-                {
-                    "type": "uint64",
-                    "name": "ticket_price"
                 },
                 {
                     "type": "pay",

@@ -18,7 +18,7 @@ export default function LogEvent({ onFormSubmit }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
 
-  const W3S_TOKEN = 'Write your own api token here. Get it from https://web3.storage/';
+  const W3S_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEYzQjNEMjNmZEFDRjYxMTJERjhlQTg5NmIwNjY4ODgzOUIxMjJlZDYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODc3NjU1OTY3MzIsIm5hbWUiOiJBa3NoYXRfVG9rZW4ifQ.qKc5rXKrrpKs4lpMkZnjFrweN_3f67wVzGMtMfmphjM';
   const w3s = new Web3Storage({ token: W3S_TOKEN });
 
   const [formData, setFormData] = useState({
@@ -36,6 +36,7 @@ export default function LogEvent({ onFormSubmit }) {
     asset_ID: 0,
     appID: 0,
     ticket_id: 0,
+    organizer_address: '',
   });
 
   const BOX_CREATE_COST = 0.0025e6;
@@ -151,23 +152,35 @@ export default function LogEvent({ onFormSubmit }) {
         name: formData.name,
         total: Number(formData.numberOfTickets),
         assetURL: `ipfs://${metadataRoot}/metadata.json#arc3`,
+        assetPrice: formData.ticketPrice * 1000000,
+        organizer_address: sender.addr,
       };
 
+      console.log('ticketObject: ', ticketObject);
+
       console.log(NFTticketingdApp);
+      console.log('NFTticketingdApp.getBoxNames(): ', NFTticketingdApp.getBoxNames());
 
       const minted_ticketsId = (await NFTticketingdApp.getBoxNames()).filter((b) => {
         // filter out non minted_tickets boxes
+        console.log('b.name.startsWith(m-): ', b.name.startsWith('m-'));
         if (!b.name.startsWith('m-')) return false;
         // filter out minted_tickets that aren't from the sender
         return algosdk.encodeAddress(b.nameRaw.slice(2, 34)) === algosdk.getApplicationAddress(NFTticketingdAppId);
       }).length;
 
+      console.log('minted_ticketsId: ', minted_ticketsId);
+
       const minted_ticketsKeyType = algosdk.ABIType.from('(address,uint64)');
+      console.log('minted_ticketsKeyType: ', minted_ticketsKeyType);
       const minted_ticketsKeyPrefix = new Uint8Array(Buffer.from('m-'));
+      console.log('minted_ticketsKeyPrefix: ', minted_ticketsKeyPrefix);
       const minted_ticketsKey = new Uint8Array([
         ...minted_ticketsKeyPrefix,
         ...minted_ticketsKeyType.encode([algosdk.getApplicationAddress(NFTticketingdAppId), minted_ticketsId]),
       ]);
+
+      console.log('minted_ticketsKey: ', minted_ticketsKey);
 
       const boxMbr = BOX_CREATE_COST + (Object.values(ticketObject).reduce((totalLength, value) => totalLength + String(value).length, 0) + minted_ticketsKey.byteLength) * BOX_BYTE_COST;
 
@@ -177,6 +190,8 @@ export default function LogEvent({ onFormSubmit }) {
         from: sender.addr,
         to: algosdk.getApplicationAddress(NFTticketingdAppId),
       });
+
+      console.log('payment: ', payment);
 
       const args = [Object.values(ticketObject), minted_ticketsId, { txn: payment, signer: sender.signer }];
       const result = await NFTticketingdApp.call({
@@ -218,7 +233,7 @@ export default function LogEvent({ onFormSubmit }) {
         asset_ID: 0,
         appID: 0,
         ticket_id: 0,
-        asset_creator_address: '',
+        organizer_address: '',
       });
     } catch (error) {
       console.log("Couldn't sign or send payment txns: ", error);

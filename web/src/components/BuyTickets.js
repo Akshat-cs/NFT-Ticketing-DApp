@@ -80,9 +80,9 @@ export default function BuyTickets({ submissions }) {
       suggestedParams: await algod.getTransactionParams().do(),
       amount: ((Number(event.ticketPrice)) * 1000000) + 500_000, // 500_000 is box mbr, later on calculate it for now just taking it enough big number to save some time
       from: sender.addr,
-      to: algosdk.getApplicationAddress(event.appID),
+      to: event.organizer_address,
     });
-    const args = [event.asset_ID, event.organizer_address, event.ticket_id, Number(event.ticketPrice) * 1000000, { txn: payment, signer: sender.signer }, { txn: optin, signer: sender.signer }];
+    const args = [event.asset_ID, event.ticket_id, { txn: payment, signer: sender.signer }, { txn: optin, signer: sender.signer }];
 
     await NFTticketingdApp.call({
       method: 'buy',
@@ -138,7 +138,9 @@ export default function BuyTickets({ submissions }) {
                 </p>
                 <p className="card-text">
                   Event ID: {event.ticket_id}
-                  <img src={logo} alt="Currency Logo" style={{ width: '30px', marginLeft: '1px' }} />
+                </p>
+                <p className="card-text">
+                  Organizer addr: {event.organizer_address}
                 </p>
                 <button
                   className="btn btn-primary"
