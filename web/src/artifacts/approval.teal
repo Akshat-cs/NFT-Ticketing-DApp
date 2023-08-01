@@ -1,12 +1,12 @@
 #pragma version 8
-intcblock 0 1 32 20
-bytecblock 0x 0x6d2d 0x682d
+intcblock 0 1 32 10
+bytecblock 0x 0x6d2d
 txn NumAppArgs
 intc_0 // 0
 ==
 bnz main_l6
 txna ApplicationArgs 0
-pushbytes 0xff3cf74a // "mint((string,uint64,string,uint64,string),uint64,pay)uint64"
+pushbytes 0xeff08ab0 // "mint((string,uint64,string,uint64,address),uint64,pay)uint64"
 ==
 bnz main_l5
 txna ApplicationArgs 0
@@ -118,7 +118,7 @@ frame_dig -3
 intc_0 // 0
 extract_uint16
 frame_dig -3
-pushint 10 // 10
+intc_3 // 10
 extract_uint16
 substring3
 frame_bury 3
@@ -128,11 +128,10 @@ extract_uint64
 frame_bury 4
 frame_dig -3
 frame_dig -3
-pushint 10 // 10
+intc_3 // 10
 extract_uint16
-frame_dig -3
-intc_3 // 20
-extract_uint16
+dig 1
+len
 substring3
 frame_bury 5
 frame_dig -3
@@ -140,12 +139,7 @@ pushint 12 // 12
 extract_uint64
 frame_bury 6
 frame_dig -3
-frame_dig -3
-intc_3 // 20
-extract_uint16
-dig 1
-len
-substring3
+extract 20 32
 frame_bury 7
 itxn_begin
 pushint 3 // acfg
@@ -186,70 +180,39 @@ proto 4 0
 bytec_0 // ""
 intc_0 // 0
 bytec_0 // ""
-dupn 4
-intc_0 // 0
 dupn 2
-bytec_0 // ""
-dup
 intc_0 // 0
 dup
 bytec_0 // ""
 dup
 global CurrentApplicationAddress
-frame_bury 6
-frame_dig 6
+frame_bury 4
+frame_dig 4
 len
 intc_2 // 32
 ==
 assert
-frame_dig 6
+frame_dig 4
 frame_dig -3
 itob
 concat
 frame_bury 3
-txn Sender
-frame_bury 5
-frame_dig 5
-len
-intc_2 // 32
-==
-assert
-frame_dig 5
-frame_dig -3
-itob
-concat
-frame_bury 4
-bytec_2 // "h-"
-frame_dig 4
-concat
-box_len
-store 7
-store 6
-load 7
-intc_0 // 0
-==
-assert
 bytec_1 // "m-"
 frame_dig 3
 concat
 box_get
-store 9
-store 8
-load 9
+store 7
+store 6
+load 7
 assert
-load 8
+load 6
 frame_bury 0
 frame_dig 0
 pushint 12 // 12
 extract_uint64
 frame_bury 1
 frame_dig 0
-frame_dig 0
-intc_3 // 20
-extract_uint16
-dig 1
-len
-substring3
+extract 20 32
 frame_bury 2
 frame_dig -2
 gtxns Amount
@@ -259,7 +222,6 @@ assert
 frame_dig -2
 gtxns Receiver
 frame_dig 2
-extract 2 0
 ==
 assert
 itxn_begin
@@ -275,21 +237,6 @@ itxn_field XferAsset
 intc_1 // 1
 itxn_field AssetAmount
 itxn_submit
-intc_1 // 1
-frame_bury 7
-bytec_2 // "h-"
-frame_dig 4
-concat
-box_del
-pop
-bytec_2 // "h-"
-frame_dig 4
-concat
-pushbytes 0x00 // 0x00
-intc_0 // 0
-frame_dig 7
-setbit
-box_put
 retsub
 
 // mint_caster

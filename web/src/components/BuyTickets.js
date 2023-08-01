@@ -60,13 +60,12 @@ export default function BuyTickets({ submissions }) {
       algod,
     );
 
-    const has_ownershipKeyType = algosdk.ABIType.from('(address,uint64)');
-    const encodedKey = has_ownershipKeyType.encode([sender.addr, event.ticket_id]);
-    const has_ownershipKey = new Uint8Array([
-      ...new Uint8Array(Buffer.from('h-')),
-      ...encodedKey,
+    const minted_ticketsKeyType = algosdk.ABIType.from('(address,uint64)');
+    const minted_ticketsKeyPrefix = new Uint8Array(Buffer.from('m-'));
+    const minted_ticketsKey = new Uint8Array([
+      ...minted_ticketsKeyPrefix,
+      ...minted_ticketsKeyType.encode([algosdk.getApplicationAddress(event.appID), event.ticket_id]),
     ]);
-
 
     const optin = algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
       suggestedParams: await algod.getTransactionParams().do(),
@@ -78,7 +77,7 @@ export default function BuyTickets({ submissions }) {
 
     const payment = algosdk.makePaymentTxnWithSuggestedParamsFromObject({
       suggestedParams: await algod.getTransactionParams().do(),
-      amount: ((Number(event.ticketPrice)) * 1000000) + 500_000, // 500_000 is box mbr, later on calculate it for now just taking it enough big number to save some time
+      amount: ((Number(event.ticketPrice)) * 1000000),
       from: sender.addr,
       to: event.organizer_address,
     });
@@ -88,7 +87,7 @@ export default function BuyTickets({ submissions }) {
       method: 'buy',
       sendParams: { fee: algokit.microAlgos(algosdk.ALGORAND_MIN_TX_FEE * 3) },
       methodArgs: args,
-      boxes: [{ appIndex: 0, name: has_ownershipKey }],
+      boxes: [{ appIndex: 0, name: minted_ticketsKey }],
       sender,
     });
 
@@ -140,7 +139,7 @@ export default function BuyTickets({ submissions }) {
                   Event ID: {event.ticket_id}
                 </p>
                 <p className="card-text">
-                  Organizer addr: {event.organizer_address}
+                  Asset ID: {event.asset_ID}
                 </p>
                 <button
                   className="btn btn-primary"

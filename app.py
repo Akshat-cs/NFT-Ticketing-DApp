@@ -10,7 +10,7 @@ class NFTticket(abi.NamedTuple):
     total: abi.Field[abi.Uint64]
     asset_url: abi.Field[abi.String]
     asset_price: abi.Field[abi.Uint64]
-    organizer_address: abi.Field[abi.String]
+    organizer_address: abi.Field[abi.Address]
 
 
 class Dapp:
@@ -19,11 +19,6 @@ class Dapp:
         key_type=abi.Tuple2[abi.Address, abi.Uint64],
         value_type=NFTticket,
         prefix=Bytes("m-"),
-    )
-    has_ownership = BoxMapping(
-        key_type=abi.Tuple2[abi.Address, abi.Uint64],
-        value_type=abi.Bool,
-        prefix=Bytes("h-"),
     )
 
 
@@ -49,7 +44,7 @@ def mint(
     total = abi.Uint64()
     asset_url = abi.String()
     asset_price = abi.Uint64()
-    organizer_address = abi.String()
+    organizer_address = abi.Address()
     return Seq(
         # Assert MBR payment is going to the contract
         Assert(mbr_payment.get().receiver() == Global.current_application_address()),
@@ -94,27 +89,19 @@ def buy(
 ) -> Expr:
     return_value = NFTticket()
     asset_price = abi.Uint64()
-    organizer_address = abi.String()
+    organizer_address = abi.Address()
     ticket_key = abi.make(abi.Tuple2[abi.Address, abi.Uint64])
-    has_ownership_key = abi.make(abi.Tuple2[abi.Address, abi.Uint64])
-    addr = abi.Address()
     addr1 = abi.Address()
-    true_value = abi.Bool()
     return Seq(
         # Set ticket key
         addr1.set(Global.current_application_address()),
         ticket_key.set(addr1, ticket_id),
-        # Set has_ownership key
-        addr.set(Txn.sender()),
-        has_ownership_key.set(addr, ticket_id),
-        # Check that the buyer should not own any ticket yet
-        Assert(app.state.has_ownership[has_ownership_key].exists() == Int(0)),
         # Store the value boxmapping[index]
         app.state.minted_tickets[ticket_key].store_into(return_value),
         return_value.asset_price.store_into(asset_price),
         return_value.organizer_address.store_into(organizer_address),
         # Verify payment transaction
-        Assert(payment.get().amount() == asset_price.get()),
+        Assert(payment.get().amount() == (asset_price.get())),
         Assert(payment.get().receiver() == organizer_address.get()),
         InnerTxnBuilder.Execute(
             {
@@ -125,9 +112,6 @@ def buy(
                 TxnField.asset_amount: Int(1),
             }
         ),
-        # Set has_ownership to true
-        true_value.set(value=True),
-        app.state.has_ownership[has_ownership_key].set(true_value),
     )
 
 

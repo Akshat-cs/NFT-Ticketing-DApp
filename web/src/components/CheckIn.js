@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import QrScanner from 'react-qr-scanner';
-import * as algokit from '@algorandfoundation/algokit-utils';
-import appspec from '../artifacts/application.json';
 import algosdk from 'algosdk';
-import { connectedAddress } from './Connect';
 
 import { dAppId } from './LogEvent';
 
 export default function CheckIn() {
   const [data, setData] = useState('');
   const [showScanner, setShowScanner] = useState(false);
-  const [eventID, setEventID] = useState(0);
+  const [assetID, setAssetID] = useState(0);
   const [message, setMessage] = useState('');
-
-  let NFTticketingdApp;
   const algod = new algosdk.Algodv2('', 'https://testnet-api.algonode.cloud', '');
 
   useEffect(() => {
@@ -32,52 +27,23 @@ export default function CheckIn() {
 
       // Custom logic using scanned data and form inputs (organizerAddress and eventID)
       console.log('Scanned Data:', result.text);
-      console.log('Event ID:', eventID);
+      console.log('Asset ID:', assetID);
       console.log('NFTticketingdAppId:', dAppId);
 
       // Custom logic for form submission (if needed)
-
-      const sender = {
-        addr: connectedAddress
-      };
-
-      NFTticketingdApp = algokit.getAppClient(
-        {
-          app: JSON.stringify(appspec),
-          sender,
-          resolveBy: 'id',
-          id: dAppId,
-        },
-        algod,
-      );
-      console.log('NFTticketingdApp.getBoxNames(): ', NFTticketingdApp.getBoxNames());
-
-      const hasOwnership = async () => {
-        const boxNames = await NFTticketingdApp.getBoxNames();
-        const ownershipBox = boxNames.find((b) => {
-          // filter out non has_ownership boxes
-          console.log('b.names: ', b.names);
-          console.log('b.name.startsWithh-: ', b.name.startsWith('h-'));
-          if (!b.name.startsWith('h-')) return false;
-
-          console.log('algosdk.encodeAddress(b.nameRaw.slice(2, 34)): ', algosdk.encodeAddress(b.nameRaw.slice(2, 34)));
-          console.log('result.text: ', result.text);
-          if (algosdk.encodeAddress(b.nameRaw.slice(2, 34)) !== result.text) return false;
-
-          console.log('1st value: ', algosdk.decodeUint64(b.nameRaw.slice(34, 42), 'safe'));
-          console.log('2nd value: ', eventID);
-          console.log('return value= ', algosdk.decodeUint64(b.nameRaw.slice(34, 42), 'safe') === eventID);
-          return algosdk.decodeUint64(b.nameRaw.slice(34, 42), 'safe') === eventID;
-        });
-
-        return !!ownershipBox; // Return true if ownershipBox exists, false otherwise
-      };
-
-      if (await hasOwnership()) {
+      try {
+        const accountAssetInfo = await algod.accountAssetInformation(result.text, assetID).do();
         setMessage('Successfully checked in!'); // User holds a ticket
-      } else {
+      } catch (error) {
+        console.log('error: ', error);
         setMessage('Do not hold a ticket!'); // User does not hold a ticket
       }
+
+      // if (await hasOwnership()) {
+      //   setMessage('Successfully checked in!'); // User holds a ticket
+      // } else {
+      //   setMessage('Do not hold a ticket!'); // User does not hold a ticket
+      // }
     }
   };
 
@@ -120,8 +86,8 @@ export default function CheckIn() {
         ) : (
           <form>
             <div className="form-group">
-              <label htmlFor="eventID">Event ID</label>
-              <input type="text" className="form-control" id="eventID" value={eventID} onChange={(e) => setEventID(e.target.value)} required />
+              <label htmlFor="assetID">Asset ID</label>
+              <input type="text" className="form-control" id="assetID" value={assetID} onChange={(e) => setAssetID(e.target.value)} required />
             </div>
             <div className="text-center">
               <button type="button" className="btn btn-success my-1" onClick={handleScanQR}>Scan QR</button>
