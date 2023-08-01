@@ -1,45 +1,69 @@
-# nftticketingdapp
+# NFT Ticketing DApp on Algorand: A Developer's Guide
 
-This project has been generated using AlgoKit. See below for default getting started instructions.
+## Introduction
 
-# Setup
+In the world of blockchain technology, Non-Fungible Tokens (NFTs) have gained significant attention for their unique properties and ability to represent ownership of digital assets. Algorand, a high-performance blockchain platform, offers developers a robust ecosystem to build decentralized applications (DApps) with NFT capabilities. In this guide, we'll explore an example application - an NFT ticketing DApp - that showcases the power and simplicity of developing on Algorand.
 
-### Initial setup
+## Overview of the NFT Ticketing DApp
 
-1. Clone this repository: `git clone {repository_url}`
-2. Install pre-requisites:
-   - If you have AlgoKit installed, run `algokit bootstrap poetry` within this folder;
-   - or:
-     - Install `Python` - [Link](https://www.python.org/downloads/): The minimum required version is `3.10`. Ensure you can execute `python -V` and get `3.10`+.
-     - Install `Poetry` - [Link](https://python-poetry.org/docs/#installation): The minimum required version is `1.2`. Ensure you can execute `poetry -V` and get `1.2`+.
-     - If you're not using PyCharm, then run `poetry install` in the root directory (this should set up `.venv` and also install all Python dependencies) - PyCharm will do this for you automatically on startup 🪄.
-3. Open the project and start debugging / developing via:
-   - VS Code
-     1. Open the repository root in VS Code
-     2. Install recommended extensions
-     3. Hit F5 (or whatever you have debug mapped to) and it should start running with breakpoint debugging.
-        (**NOTE:** The first time you run, VS Code may prompt you to select the Python Interpreter. Select python from the .venv path within this project)
-   - IDEA (e.g. PyCharm)
-     1. Open the repository root in the IDE
-     2. It should automatically detect it's a Poetry project and set up a Python interpreter and virtual environment.
-     3. Hit Shift+F9 (or whatever you have debug mapped to) and it should start running with breakpoint debugging.
-   - Other
-     1. Open the repository root in your text editor of choice
-     2. In a terminal run `poetry shell`
-     3. Run `python app.py` through your debugger of choice
+This article explains what the NFT ticketing DApp is and how it works. We also provide an example repository where you can clone and run it yourself. It's important to note that this example assumes prior knowledge of smart contracts on Algorand and requires experience in smart contract development. Additionally, while this example serves as a learning tool, it has not undergone a formal audit and contains intentional choices that make it unsuitable for production without modifications.
 
-### Subsequently
+### Smart Contract Methods
 
-1. If you update to the latest source code and there are new dependencies you will need to run `poetry install` again
-2. Follow step 3 above
+1. `create()`: This method is used to create the NFT ticketing DApp. It initializes the global state of the application.
 
-# Tools
+2. `mint(ticket, ticket_id, mbr_payment, *, output)`: The `mint` method allows users to mint NFT tickets for events. It takes parameters such as the ticket details (`ticket`), ticket ID (`ticket_id`), the MBR payment transaction (`mbr_payment`), and an output variable (`output`). This method ensures that the MBR payment is sent to the contract and checks if the ticket for this ticket id already exists. It then sets the ticket details in the `minted_tickets` mapping and mints the NFT.
 
-This project makes use of Python to build Algorand smart contracts. The following tools are in use:
+3. `pay(receiver, amount)`: The `pay` subroutine is used internally to handle payment transactions. It takes the receiver address (`receiver`) and the payment amount (`amount`) as parameters and executes a payment transaction.
 
-- [Poetry](https://python-poetry.org/): Python packaging and dependency management.- [Black](https://github.com/psf/black): A Python code formatter.
-- [Ruff](https://github.com/charliermarsh/ruff): An extremely fast Python linter.
+4. `buy(asset, organizer_account, ticket_id, ticket_price, payment, optin_payment)`: The `buy` method enables users to purchase NFT tickets for events. It requires parameters such as the asset details (`asset`), organizer account (`organizer_account`), ticket ID (`ticket_id`), ticket price (`ticket_price`), payment transaction (`payment`), and opt-in payment transaction (`optin_payment`). This method verifies the payment transaction and ensures that the buyer doesn't already own a ticket. It then transfers the payment to the organizer and transfers the NFT ticket to the buyer by setting the `has_ownership` mapping to true.
 
-- [mypy](https://mypy-lang.org/): Static type checker.
+Please note that the above explanations provide an overview of the methods in the smart contract and their functionalities. For detailed code implementation, please refer to the provided code repository.
 
-It has also been configured to have a productive dev experience out of the box in VS Code, see the [.vscode](./.vscode) folder.
+## Key Components and Functionality
+
+**LogEvent:** This component facilitates the creation and deployment of the NFT ticketing application on the Algorand blockchain. Developers can leverage the algokit library to interact with Algorand's blockchain, while the Web3.storage library handles the storage of event images and metadata associated with NFT tickets. By providing event details and invoking the minting process, users can create unique NFT tickets for their events.
+
+**BuyTickets:** In this component, users can explore a list of available events and purchase NFT tickets. It integrates the algokit library for seamless interaction with the Algorand blockchain and utilizes the PeraWalletConnect library for wallet connectivity. By clicking the "Buy Ticket" button, users initiate the purchase process, involving a payment transaction to the NFT ticketing application.
+
+**CheckIn:** Designed for event organizers, this component enables them to validate NFT tickets by scanning users' wallet QR codes. It employs the QrScanner library to scan QR codes and the algokit library to interact with the Algorand blockchain. Upon scanning, the component verifies ticket ownership by event ID with the deployed NFT ticketing application. We do not need to know who the event organizer is to check for the ownership as all the tickets are created by smart contract only.
+
+**Demo:** Using the repository NFTTicketingDApp, we’ll now step through the entire process of how the NFT ticketing DApp works. Please note that this demo won’t show off anything overly complicated, and will simply demonstrate the functionality of being able to create your own NFT tickets for your event and then any other user will be able to buy a ticket to your event with the Pera wallet. And you can also use the check-in functionality of the DApp to ensure at the event gates if a certain individual holds the NFT ticket to your event or not, just by scanning his/her Pera wallet QR code.
+
+## Prerequisites for Running the DApp
+
+Run these scripts on any terminal:
+
+- Git
+  - Check if already installed or not: `git --version`
+  - To install: Check out this video to install git in Windows - [YouTube](https://youtu.be/JgOs70Y7jew)
+
+- Python 3.10+
+  - Check if already installed or not: `python --version`
+  - To install: Check out this video to install Python in Windows - [YouTube](https://youtu.be/JJQW3GPnzQ8)
+
+- Pipx
+  - Check if already installed or not: `pipx --version`
+  - To install: `python -m pip install pipx`
+
+- Algokit
+  - Check if already installed or not: `algokit --version`
+  - To install: `pipx install algokit`
+
+- Test ALGOS in your Pera account to successfully complete the transactions. Use [https://bank.testnet.algorand.network/](https://bank.testnet.algorand.network/) to get test ALGOS.
+
+The following steps should get you up and running with an instance of the NFT Ticketing DApp:
+
+1. Clone the repository:
+
+2. Bootstrap the algokit:
+
+3. Replace the `Get the api token here https://web3.storage/` with the `api_token` on line 20 of `LogEvent.js` in the components directory.
+
+4. Navigate to the `web` directory:
+
+5. Start the application:
+
+## Conclusion
+
+By exploring the NFT ticketing DApp, developers gain insights into building decentralized applications on the Algorand blockchain. The example application demonstrates how to leverage the Algorand ecosystem, including the algokit library, smart contracts, and NFT capabilities, to create innovative and secure solutions. With this knowledge, developers can dive into the Algorand documentation, clone the NFT ticketing DApp repository, and begin their journey to develop their own blockchain applications on Algorand. Hopefully, this article and the demonstration of what the NFT Ticketing DApp is capable of has inspired you to take advantage of it, or build your own version. All the code is available for you to download, use, and modify. If you have any improvements, please feel free to submit a PR, or if you have any questions or just want to discuss other Algorand-related subjects, join the Algorand Discord.
