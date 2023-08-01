@@ -54,15 +54,15 @@ Run these scripts on any terminal:
 
 The following steps should get you up and running with an instance of the NFT Ticketing DApp:
 
-1. Clone the repository:
+1. Clone the repository: `git clone https://github.com/Akshat-cs/NFT-Ticketing-DApp`
 
-2. Bootstrap the algokit:
+2. Bootstrap the algokit: `algokit bootstrap all`
 
 3. Replace the `Get the api token here https://web3.storage/` with the `api_token` on line 20 of `LogEvent.js` in the components directory.
 
-4. Navigate to the `web` directory:
+4. Navigate to the `web` directory: `cd web`
 
-5. Start the application:
+5. Start the application: `npm start`
 
 ## Conclusion
 
