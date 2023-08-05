@@ -20,11 +20,11 @@ Please note that the above explanations provide an overview of the methods in th
 
 ## Key Components and Functionality
 
-**LogEvent:** This component facilitates the creation and deployment of the NFT ticketing application on the Algorand blockchain. Developers can leverage the algokit library to interact with Algorand's blockchain, while the Web3.storage library handles the storage of event images and metadata associated with NFT tickets. By providing event details and invoking the minting process, users can create unique NFT tickets for their events.
+**LogEvent:** This component facilitates the creation and deployment of the NFT ticketing application on the Algorand blockchain. Developers can leverage the algokit library to interact with Algorand's blockchain, while the Web3.storage library handles the storage of event image and metadata associated with NFT tickets. By providing event details and invoking the minting process, users can create unique NFT tickets for their events.
 
-**BuyTickets:** In this component, users can explore a list of available events and purchase NFT tickets. It integrates the algokit library for seamless interaction with the Algorand blockchain and utilizes the PeraWalletConnect library for wallet connectivity. By clicking the "Buy Ticket" button, users initiate the purchase process, involving a payment transaction to the NFT ticketing application.
+**BuyTickets:** In this component, users can explore a list of available events and purchase NFT tickets. It integrates the algokit library for seamless interaction with the Algorand blockchain and utilizes the PeraWalletConnect library for wallet connectivity. By clicking the "Buy Ticket" button, users initiate the purchase process, involving a payment transaction to the Event Organizer's address.
 
-**CheckIn:** Designed for event organizers, this component enables them to validate NFT tickets by scanning users' wallet QR codes. It employs the QrScanner library to scan QR codes and the algokit library to interact with the Algorand blockchain. Upon scanning, the component verifies ticket ownership by event ID with the deployed NFT ticketing application.
+**CheckIn:** Designed for event organizers, this component enables them to validate NFT tickets by scanning users' wallet QR codes. It employs the react-qr-scanner library to scan QR codes and the algokit library to interact with the Algorand blockchain. Upon scanning, the component verifies ticket ownership by asset ID with the deployed NFT ticketing application.
 
 **Demo:** Using the repository NFTTicketingDApp, we’ll now step through the entire process of how the NFT ticketing DApp works. Please note that this demo won’t show off anything overly complicated, and will simply demonstrate the functionality of being able to create your own NFT tickets for your event and then any other user will be able to buy a ticket to your event with the Pera wallet. And you can also use the check-in functionality of the DApp to ensure at the event gates if a certain individual holds the NFT ticket to your event or not, just by scanning his/her Pera wallet QR code.
 
@@ -34,12 +34,14 @@ Run these scripts on any terminal:
 
 - Git
   - Check if already installed or not: `git --version`
-  - To install: Check out this video to install git in Windows - [YouTube](https://youtu.be/JgOs70Y7jew)
+  - To install on MacOS: Check out this video to install git - [YouTube]([https://youtu.be/JgOs70Y7jew](https://youtu.be/ZM3I16Z-lxI))
+  - To install on windows: Check out this video to install git - [YouTube](https://youtu.be/JgOs70Y7jew)
 
 - Python 3.10+
   - Check if already installed or not: `python --version`
-  - To install: Check out this video to install Python in Windows - [YouTube](https://youtu.be/JJQW3GPnzQ8)
-
+  - To install on MacOS: Check out this video to install python - [YouTube]([https://youtu.be/JJQW3GPnzQ8](https://youtu.be/M323OL6K5vs))
+  - To install on windows: Check out this video to install python - [YouTube](https://youtu.be/JJQW3GPnzQ8)
+    
 - Pipx
   - Check if already installed or not: `pipx --version`
   - To install: `python -m pip install pipx`
