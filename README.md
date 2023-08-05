@@ -34,12 +34,12 @@ Run these scripts on any terminal:
 
 - Git
   - Check if already installed or not: `git --version`
-  - To install on MacOS: Check out this video to install git - [YouTube]([https://youtu.be/JgOs70Y7jew](https://youtu.be/ZM3I16Z-lxI)
+  - To install on MacOS: Check out this video to install git - [YouTube](https://youtu.be/ZM3I16Z-lxI)
   - To install on windows: Check out this video to install git - [YouTube](https://youtu.be/JgOs70Y7jew)
 
 - Python 3.10+
   - Check if already installed or not: `python --version`
-  - To install on MacOS: Check out this video to install python - [YouTube]([https://youtu.be/JJQW3GPnzQ8](https://youtu.be/M323OL6K5vs)
+  - To install on MacOS: Check out this video to install python - [YouTube](https://youtu.be/M323OL6K5vs)
   - To install on windows: Check out this video to install python - [YouTube](https://youtu.be/JJQW3GPnzQ8)
     
 - Pipx
