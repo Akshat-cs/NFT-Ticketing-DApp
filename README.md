@@ -1,5 +1,11 @@
 # NFT Ticketing DApp on Algorand: A Developer's Guide
 Video demo: https://drive.google.com/file/d/1e3eBZ3iJr-e5V3CGQkDh7ookplrzjhKL/view?usp=sharing
+
+## Frontend look
+![Screenshot (5)](https://github.com/Akshat-cs/NFT-Ticketing-DApp/assets/75172495/38b3ac62-0b37-4bc1-8914-684a606ffe02)
+![Screenshot (6)](https://github.com/Akshat-cs/NFT-Ticketing-DApp/assets/75172495/8fbaee7e-07bd-43b4-ba41-5cc1272c2aa4)
+![Screenshot (7)](https://github.com/Akshat-cs/NFT-Ticketing-DApp/assets/75172495/41df2c71-6446-4046-af37-18bddb164a0e)
+
 ## Introduction
 
 In the world of blockchain technology, Non-Fungible Tokens (NFTs) have gained significant attention for their unique properties and ability to represent ownership of digital assets. Algorand, a high-performance blockchain platform, offers developers a robust ecosystem to build decentralized applications (DApps) with NFT capabilities. In this guide, we'll explore an example application - an NFT ticketing DApp - that showcases the power and simplicity of developing on Algorand.
